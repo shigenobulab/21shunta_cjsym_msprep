@@ -1,19 +1,23 @@
 #!/bin/sh
-#PBS -S /bin/sh
-#PBS -q CDE
-#PBS -l ncpus=8
+#PBS -q MPP
+#PBS -l ncpus=40
+#PBS -l mem=50gb
 cd $PBS_O_WORKDIR
+
+source /etc/profile.d/modules.sh
+module load bowtie2/2.4.2
+module load samtools/1.13
 
 ### configs ###
 
-NCPUS=8
+DIR=pilon_1st
 REF=consensus.fasta
-READ1=CJWBGD_S2_L001_R1_001.cln.Q20L25.fastq.gz
-READ2=CJWBGD_S2_L001_R2_001.cln.Q20L25.fastq.gz
-OUTF=IlluminaTruSeq2raven
+OUTF=$DIR/IlluminaTruSeq2raven
+READ1=Cj_1.cln.Q30L50.fastq.gz
+READ2=Cj_2.cln.Q30L50.fastq.gz
 
-if [ ! -d "$OUTDIR" ]; then
-  mkdir $OUTDIR
+if [ ! -d "$DIR" ]; then
+  mkdir $DIR
 fi
 
 ###
@@ -36,3 +40,5 @@ samtools sort \
 
 samtools index \
   ${OUTF}_sorted.bam
+
+rm ${OUTF}.sam

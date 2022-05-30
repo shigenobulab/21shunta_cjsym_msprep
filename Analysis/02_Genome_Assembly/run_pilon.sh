@@ -1,18 +1,21 @@
-#!/bin/bash
-#PBS -S /bin/bash
-#PBS -q SMP
-#PBS -l ncpus=8
+#!/bin/sh
+#PBS -q MPP
+#PBS -l ncpus=40
+#PBS -l mem=50gb
 cd $PBS_O_WORKDIR
+
+source ~/miniconda3/etc/profile.d/conda.sh
+conda activate base
 
 ### configs ###
 
-NCPUS=8
+DIR=pilon
 REF=consensus.fasta
-INBAM=IlluminaTruSeq2raven_sorted.bam
-OUTDIR=pilon
+INBAM=$DIR/IlluminaTruSeq2raven_sorted.bam
+LOG=$DIR/pilon
 
-if [ ! -d "$OUTDIR" ]; then
-  mkdir $OUTDIR
+if [ ! -d "$DIR" ]; then
+  mkdir $DIR
 fi
 
 ###
@@ -23,4 +26,7 @@ pilon \
   --tracks \
   --changes \
   --threads $NCPUS \
-  --outdir $OUTDIR
+  --outdir $DIR \
+  > ${LOG}.log 2>&1
+
+conda deactivate

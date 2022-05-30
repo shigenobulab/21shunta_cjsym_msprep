@@ -5,7 +5,7 @@ library(RColorBrewer)
 library(extrafont) # for Arial font
 
 ## Load data
-dat <- read.delim("CjBuc_pLeuTrp_coordinates.txt", header = FALSE)
+dat <- read.delim("BucCj_pLeuTrp_gggene_fmt.txt", header = FALSE)
 colnames(dat) <- c("molecule", "start", "end", "orientation", "gene")
 dat <- as_tibble(dat)
 
@@ -17,9 +17,10 @@ p <- ggplot(data = dat,
                      forward = orientation)) +
   geom_gene_arrow(arrowhead_width = unit(1, "mm"), arrowhead_height = unit(3, "mm")) +
   guides(fill = guide_legend(ncol = 2)) + # to form 2 columns
-  facet_wrap(~ molecule, scales = "free", ncol = 1) +
+  facet_wrap(~ molecule, scales = "free_y", ncol = 1) +
   scale_fill_brewer(palette = "Set3") +
   labs(y = NULL, fill = "gene") +
+  xlim(c(0, 10000)) +
   theme_genes() +
   theme(legend.position = "right",
         legend.key.size = unit(3, "mm"),
@@ -28,6 +29,6 @@ p <- ggplot(data = dat,
         axis.text.x = element_text(size = 6),
         axis.text.y = element_text(size = 8))
 
-ggsave(filename = "CjBucpLeuTrpGeneArrowPlots.pdf",
+ggsave(filename = "Fig3D_CjBucpLeuTrpGeneOrder.pdf",
        plot = p, device = cairo_pdf,
        width = 174, height = 35, units = "mm", dpi = 600)

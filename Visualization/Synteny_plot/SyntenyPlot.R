@@ -3,9 +3,12 @@ library(tidyverse)
 library(ggtext) # for markdown
 library(extrafont) # for "Arial" family
 
-files <- c("BucCjAp.dc-megablast.fmt6.txt", "BucCjCc.dc-megablast.fmt6.txt",
-           "ArsCjNv.dc-megablast.fmt6.txt", "ArsCjLc.dc-megablast.fmt6.txt",
-           "HamCjAp.dc-megablast.fmt6.txt", "HamCjBt.dc-megablast.fmt6.txt")
+files <- c("BucCj_chr_2_Buchnera_Apisum_chr_fmt6_dc-megablast.txt", 
+           "BucCj_chr_2_Buchnera_Ccedri_chr_fmt6_dc-megablast.txt",
+           "ArsCj_chr_2_Arsenophonus_nasoninae_chr_fmt6_dc-megablast.txt", 
+           "ArsCj_chr_2_Arsenophonus_lipoptenae_chr_fmt6_dc-megablast.txt",
+           "HamCj_chr_2_Hamiltonella_Apisum_chr_fmt6_dc-megablast.txt", 
+           "HamCj_chr_2_Hamiltonella_Btabaci_chr_fmt6_dc-megablast.txt")
 
 brks <- list(list(c(0, 100000, 200000, 300000, 400000), c(0, 100000, 200000, 300000, 400000, 500000, 600000)),
              list(c(0, 100000, 200000, 300000, 400000), c(0, 100000, 200000, 300000, 400000)),
@@ -14,19 +17,19 @@ brks <- list(list(c(0, 100000, 200000, 300000, 400000), c(0, 100000, 200000, 300
              list(c(0, 500000, 1000000, 1500000, 2000000), c(0, 500000, 1000000, 1500000, 2000000)),
              list(c(0, 500000, 1000000, 1500000, 2000000), c(0, 500000, 1000000, 1500000)))
 
-lenlabs <- list(list(c("0 kbp", "100 Kbp", "200 Kbp", "300 Kbp", "400 Kbp"), c("0 kbp", "100 Kbp", "200 Kbp", "300 Kbp", "400 Kbp", "500 Kbp", "600 Kbp")),
-                list(c("0 kbp", "100 Kbp", "200 Kbp", "300 Kbp", "400 Kbp"), c("0 kbp", "100 Kbp", "200 Kbp", "300 Kbp", "400 Kbp")),
-                list(c("0 kbp", "200 Kbp", "400 Kbp", "600 Kbp", "800 Kbp"), c("0 Mbp", "0.5 Mbp", "1 Mbp", "1,5 Mbp", "2 Mbp", "2,5 Mbp", "3 Mbp", "3,5 Mbp")),
-                list(c("0 kbp", "200 Kbp", "400 Kbp", "600 Kbp", "800 Kbp"), c("0 kbp", "200 Kbp", "400 Kbp", "600 Kbp", "800 Kbp")),
-                list(c("0 Mbp", "0.5 Mbp", "1 Mbp", "1.5 Mbp", "2 Mbp"), c("0 Mbp", "0.5 Mbp", "1 Mbp", "1.5 Mbp", "2 Mbp")),
-                list(c("0 Mbp", "0.5 Mbp", "1 Mbp", "1.5 Mbp", "2 Mbp"), c("0 Mbp", "0.5 Mbp", "1 Mbp", "1.5 Mbp")))
+lenlabs <- list(list(c("0.0 Mb", "0.1 Mb", "0.2 Mb", "0.3 Mb", "0.4 Mb"), c("0.0 Mb", "0.1 Mb", "0.2 Mb", "0.3 Mb", "0.4 Mb", "0.5 Mb", "0.6 Mb")),
+                list(c("0.0 Mb", "0.1 Mb", "0.2 Mb", "0.3 Mb", "0.4 Mb"), c("0.0 Mb", "0.1 Mb", "0.2 Mb", "0.3 Mb", "0.4 Mb")),
+                list(c("0.0 Mb", "0.2 Mb", "0.4 Mb", "0.6 Mb", "0.8 Mb"), c("0.0 Mb", "0.5 Mb", "1.0 Mb", "1,5 Mb", "2.0 Mb", "2,5 Mb", "3.0 Mb", "3,5 Mb")),
+                list(c("0.0 Mb", "0.2 Mb", "0.4 Mb", "0.6 Mb", "0.8 Mb"), c("0.0 Mb", "0.2 Mb", "0.4 Mb", "0.6 Mb", "0.8 Mb")),
+                list(c("0.0 Mb", "0.5 Mb", "1.0 Mb", "1.5 Mb", "2.0 Mb"), c("0.0 Mb", "0.5 Mb", "1.0 Mb", "1.5 Mb", "2.0 Mb")),
+                list(c("0.0 Mb", "0.5 Mb", "1.0 Mb", "1.5 Mb", "2.0 Mb"), c("0.0 Mb", "0.5 Mb", "1.0 Mb", "1.5 Mb")))
 
-namelabs <- list(list("*Buchnera* of *C. japonica*", "*Buchnera* of *A. pisum*"),
-                 list("*Buchnera* of *C. japonica*", "*Buchnera* of *C. cedri*"),
-                 list("*Arsenophonus* of *C. japonica*", "*Arsenophonus nasoninae*"),
-                 list("*Arsenophonus* of *C. japonica*", "*Arsenophonus lipoptenae*"),
-                 list("*Hamiltonella* of *C. japonica*", "*Hamiltonella* of *A. pisum*"),
-                 list("*Hamiltonella* of *C. japonica*", "*Hamiltonella* of *B. tabaci*"))
+namelabs <- list(list("*Buchnera* of *Ce. japonica*", "*Buchnera* of *A. pisum*"),
+                 list("*Buchnera* of *Ce. japonica*", "*Buchnera* of *Ci. cedri*"),
+                 list("*Arsenophonus* of *Ce. japonica*", "*Arsenophonus nasoninae*"),
+                 list("*Arsenophonus* of *Ce. japonica*", "*Arsenophonus lipoptenae*"),
+                 list("*Hamiltonella* of *Ce. japonica*", "*Hamiltonella* of *A. pisum*"),
+                 list("*Hamiltonella* of *Ce. japonica*", "*Hamiltonella* of *B. tabaci*"))
 
 for (i in 1:6){
   dat <- read.delim(files[i], header = FALSE)
@@ -59,12 +62,10 @@ for (i in 1:6){
 }
 
 out <- ggpubr::ggarrange(p1, p2, p3, p4, p5, p6,
-                         ncol = 2, nrow = 3, labels = LETTERS,
-                         font.label = list(size = 8, color = "black", face = "bold", family = "Arial"),
-                         hjust = 0, vjust = 0.5,
+                         ncol = 2, nrow = 3,
                          common.legend = TRUE, legend = "bottom") +
   theme(plot.margin = margin(2.0, 0.1, 0.1, 1.5, "mm"))
 
-ggsave(filename = "SyntenyPlots.pdf",
+ggsave(filename = "FigS3_SyntenyPlots.pdf",
        plot = out, device = cairo_pdf,
        width = 174, height = 230, units = "mm", dpi = 600)

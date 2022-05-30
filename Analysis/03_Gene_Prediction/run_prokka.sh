@@ -1,34 +1,38 @@
 #!/bin/sh
-#PBS -S /bin/sh
 #PBS -q CDE
-#PBS -l ncpus=4
+#PBS -l ncpus=16
 cd $PBS_O_WORKDIR
+
+source ~/miniconda3/etc/profile.d/conda.sh
+conda activate base
 
 ### configs ###
 
-NCPUS=4
-# DIR=
-# PREFIX={Filename output prefix} e.g. BucCj
-# LOCTAG={Locus tag prefix} e.g. BucCj
-# GENUS= e.g. Buchnera
-# SPECIES= e.g. aphidicola
-# STRAIN= e.g. CjN
+INDIR=pilon_3corrected
+OUTDIR=BucCj_prokka
+PREFIX=BucCj # {Filename output prefix} e.g. BucCj
+LOCTAG=BucCj_NOSY1 # {Locus tag prefix} e.g. BucCj
+GENUS=Buchnera # e.g. Buchnera
+SPECIES=aphidicola # e.g. aphidicola
+STRAIN=Cj_NOSY1 # e.g. Cj_NOSY1
 KINGDOM=Bacteria
-# INF=
+INFILE=BucCj.fasta
 
 ###
 
 prokka \
   --cpus $NCPUS \
-  --outdir $DIR \
+  --outdir $OUTDIR \
   --force \
   --prefix $PREFIX \
-  --addgenes \
-  --addmrna \
+  --compliant \
+  --rfam \
   --locustag $LOCTAG \
   --genus $GENUS \
   --species $SPECIES \
   --strain $STRAIN \
   --kingdom $KINGDOM \
   --usegenus \
-  $DIR/$INF
+  $INDIR/$INFILE
+
+conda deactivate

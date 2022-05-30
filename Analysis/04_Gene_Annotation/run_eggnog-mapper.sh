@@ -1,31 +1,41 @@
 #!/bin/sh
 #PBS -S /bin/sh
-#PBS -q smps
+#PBS -q medium
 #PBS -l ncpus=4
 cd $PBS_O_WORKDIR
 
+source ~/miniconda3/etc/profile.d/conda.sh
+conda activate eggnog
+
 ### configs ###
 
-NCPUS=4
-# INF=
+INDIR=BucCj_prokka
+INFILE=BucCj.faa
 TYPE=proteins
-OUTF=`basename $INF .faa`_emapper
 MODE=diamond
+OUTFILE=`basename $INFILE .faa`_emapper
+OUTDIR=BucCj_emapper
 TAXID=1236 # gammaproteobacteria
 TAXMD=inner_broadest
 GOEVI=non-electronic
-LOG=`basename $INF .faa`_emapper.log
+LOG=`basename $INFILE .faa`_emapper.log
+
+if [ ! -d "$OUTDIR" ]; then
+  mkdir $OUTDIR
+fi
 
 ###
 
 emapper.py \
   --cpu $NCPUS \
-  -i $INF \
+  -i $INDIR/$INFILE \
   --itype $TYPE \
-  --output $OUTF \
+  --output $OUTFILE \
+  --output_dir $OUTDIR \
   -m $MODE \
   --tax_scope $TAXID \
   --tax_scope_mode $TAXMD \
   --go_evidence $GOEVI \
-  > $LOG 2>&1
-  
+  > $OUTDIR/$LOG 2>&1
+
+conda deactivate
