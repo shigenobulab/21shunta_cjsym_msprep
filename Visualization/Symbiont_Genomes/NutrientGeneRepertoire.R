@@ -2,22 +2,39 @@
 library(tidyverse)
 library(ggforce) # for arrange the panel heights: facet_col
 library(extrafont) # for "Arial" family
-library(RColorBrewer) #
+
+## Check Brewer Color
+library(RColorBrewer)
+display.brewer.all()
+brewer.pal(11, "RdYlBu")
 
 ## Load data
-dat <- read.delim("220521_CjapSymNutrientGenes.txt", header = TRUE)
+dat <- read.delim("220819_CjapSymNutrientGenes.txt", header = TRUE)
 dat <- as_tibble(dat)
 
 ## Draw plots
 dat <- dat %>%
-  mutate(pct = Number / Max)
+  mutate(
+    pct = Number / Max,
+    highlight = case_when(
+      between(pct, 0.0, 0.24) ~ "A",
+      between(pct, 0.25, 0.49) ~ "B",
+      between(pct, 0.5, 0.74) ~ "C",
+      between(pct, 0.75, 0.99) ~ "D",
+      between(pct, 1.0, 1.0) ~ "E"
+    ))
+
+fill_color <- c("#D73027", "#FDAE61", "#FFFFBF", "#ABD9E9", "#4575B4")
+fill_label <- c("0-24", "25-49", "50-74", "75-99", "100")
 
 out <- ggplot(data = dat, 
               mapping = aes(x = factor(Symbiont, levels = c("BucCj", "BucCc", "BucAp", "ArsCj", "ArsLc", "ArsNv", "Ecoli")),
-                            y = Nutrient, fill = pct)) +
-  geom_tile() +
-  scale_fill_distiller(palette = "Blues", direction = 1,
-                       labels = c("0", "25", "50", "75", "100")) +
+                            y = Nutrient, fill = highlight)) +
+  geom_tile(color = "white",
+            lwd = 0.5,
+            linetype = 1) +
+  scale_fill_manual(values = fill_color,
+                    labels = fill_label) +
   scale_x_discrete(position = "top",
                    labels = c("Ce. japonica", "Ci. cedri", "A. pisum", "Ce. japonica", "L. cervi", "A. nasoniae", "E. coli"),
                    expand = c(0, 0)) +
@@ -37,6 +54,6 @@ out <- ggplot(data = dat,
         plot.margin = margin(2, 2, 2, 2, unit = "mm"),
         panel.grid = element_blank())
 
-ggsave(filename = "Fig3F_GeneRepertoire.pdf",
+ggsave(filename = "Fig3F_GeneRepertoire2.pdf",
        plot = out, device = cairo_pdf,
-       width = 174, height = 90, units = "mm", dpi = 600)
+       width = 172, height = 90, units = "mm", dpi = 600)
